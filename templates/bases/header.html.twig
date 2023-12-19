@@ -1,0 +1,12 @@
+<header>
+{% block header %}
+    <h1>Mon Blog</h1>
+
+    {% if user and user.connected == true %}
+        <p>Bonjour {{ user.name }}</p>
+        <a href="index.php?action=logout">Se déconnecter</a>
+    {% else %}
+        <a href="index.php?action=login">Se connecter</a>
+    {% endif %}
+{% endblock %}
+</header>

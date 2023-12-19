@@ -45,4 +45,14 @@ class PostRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findPostById(int $id): ?Post
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

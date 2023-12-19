@@ -57,6 +57,11 @@ class Post
         return $this->publish_date;
     }
 
+    public function showPublishDate(): string
+    {
+        return $this->publish_date->format('d/m/Y');
+    }
+
     public function setPublishDate(\DateTimeInterface $publish_date): static
     {
         $this->publish_date = $publish_date;

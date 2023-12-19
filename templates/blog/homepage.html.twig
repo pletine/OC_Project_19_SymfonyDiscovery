@@ -1,1 +1,17 @@
-<h1>HomePage Blog</h1>
+{% extends 'base.html.twig' %}
+
+{% block title %}HomePage Blog{% endblock %}
+
+{% block body %}
+    <h1>HomePage Blog</h1>
+    <img src="{{ asset('images/test.jpeg') }}" alt="image de test">
+
+    {% for post in posts %}
+        <div>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.story }}</p>
+            <p>{{ post.showPublishDate() }}</p>
+            {# <a href="{{ path('post_show', {'id': post->id}) }}">Voir l'article</a> #}
+        </div>
+    {% endfor %}
+{% endblock %}
