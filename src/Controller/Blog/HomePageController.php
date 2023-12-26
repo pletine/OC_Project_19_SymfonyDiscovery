@@ -11,13 +11,11 @@ use App\Repository\PostRepository;
 
 class HomePageController extends AbstractController
 {
-    
-
     #[Route('/')]
     public function homepage(PostRepository $postRepository, CommentRepository $commentRepository): Response
     {
         $user = new \stdClass();
-        $user->connected = true;
+        $user->connected = false;
         $user->name = 'John Doe';
 
         $posts = $postRepository->findAll();

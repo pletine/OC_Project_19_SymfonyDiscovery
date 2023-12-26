@@ -14,9 +14,6 @@ class Comment
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $Post_id = null;
-
     #[ORM\Column(length: 64)]
     private ?string $author = null;
 
@@ -26,21 +23,13 @@ class Comment
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Post $post = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPostId(): ?int
-    {
-        return $this->Post_id;
-    }
-
-    public function setPostId(int $Post_id): static
-    {
-        $this->Post_id = $Post_id;
-
-        return $this;
     }
 
     public function getAuthor(): ?string
@@ -72,9 +61,26 @@ class Comment
         return $this->date;
     }
 
+    public function showPublishDate(): string
+    {
+        return $this->date->format('d/m/Y H:i:s');
+    }
+
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): static
+    {
+        $this->post = $post;
 
         return $this;
     }
