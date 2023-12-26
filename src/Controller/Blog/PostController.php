@@ -9,8 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-use App\Repository\PostRepository;
-
 class PostController extends AbstractController
 {
     #[Route('/post', name: 'create_post')]

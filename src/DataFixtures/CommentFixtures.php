@@ -15,22 +15,40 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Faker\Factory::create('fr_FR');
 
-        $comments = Array();
-        $nb_comments = 25;
-        $nb_posts = $this->getReference(PostFixtures::NB_POSTS);
+        $comment_1 = new Comment();
+        $comment_1->setAuthor($faker->name());
+        $comment_1->setComment($faker->text(100));
+        $comment_1->setDate($faker->dateTimeBetween('-1 years', 'now'));
+        $comment_1->setPost($this->getReference(PostFixtures::POST_1));
+        $manager->persist($comment_1);
 
-        $posts_array = (array) $this->getReference(PostFixtures::POSTS);
-        
-        for($i = 0; $i < $nb_comments; $i++) {
-            $comments[$i] = new Comment();
-            $comments[$i]->setAuthor($faker->name());
-            $comments[$i]->setComment($faker->text(200));
-            $comments[$i]->setDate($faker->dateTimeBetween('-1 years', 'now'));
+        $comment_2 = new Comment();
+        $comment_2->setAuthor($faker->name());
+        $comment_2->setComment($faker->text(100));
+        $comment_2->setDate($faker->dateTimeBetween('-1 years', 'now'));
+        $comment_2->setPost($this->getReference(PostFixtures::POST_1));
+        $manager->persist($comment_2);
 
-            $comments[$i]->setPost($posts_array[$faker->numberBetween(0, $nb_posts)]);
+        $comment_3 = new Comment();
+        $comment_3->setAuthor($faker->name());
+        $comment_3->setComment($faker->text(100));
+        $comment_3->setDate($faker->dateTimeBetween('-1 years', 'now'));
+        $comment_3->setPost($this->getReference(PostFixtures::POST_2));
+        $manager->persist($comment_3);
 
-            $manager->persist($comments[$i]);
-        }
+        $comment_4 = new Comment();
+        $comment_4->setAuthor($faker->name());
+        $comment_4->setComment($faker->text(100));
+        $comment_4->setDate($faker->dateTimeBetween('-1 years', 'now'));
+        $comment_4->setPost($this->getReference(PostFixtures::POST_3));
+        $manager->persist($comment_4);
+
+        $comment_5 = new Comment();
+        $comment_5->setAuthor($faker->name());
+        $comment_5->setComment($faker->text(100));
+        $comment_5->setDate($faker->dateTimeBetween('-1 years', 'now'));
+        $comment_5->setPost($this->getReference(PostFixtures::POST_4));
+        $manager->persist($comment_5);
 
         $manager->flush();
     }
