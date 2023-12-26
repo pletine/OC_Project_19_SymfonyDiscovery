@@ -21,49 +21,18 @@ class PostFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr_FR');
 
-        $post_1 = new Post();
-        $post_1->setTitle($faker->text(20));
-        $post_1->setStory($faker->text(100));
-        $post_1->setPublishDate($faker->dateTimeBetween('-1 years', 'now'));
-        $manager->persist($post_1);
+        $nb_post = 8;
 
-        $post_2 = new Post();
-        $post_2->setTitle($faker->text(20));
-        $post_2->setStory($faker->text(100));
-        $post_2->setPublishDate($faker->dateTimeBetween('-1 years', 'now'));
-        $manager->persist($post_2);
+        for ($i = 0; $i < $nb_post; $i++) {
+            $post = new Post();
+            $post->setTitle($faker->sentence(10, true));
+            $post->setStory($faker->text(1000));
+            $post->setPublishDate($faker->dateTimeBetween('-2 years', 'now'));
+            $manager->persist($post);
 
-        $post_3 = new Post();
-        $post_3->setTitle($faker->text(20));
-        $post_3->setStory($faker->text(100));
-        $post_3->setPublishDate($faker->dateTimeBetween('-1 years', 'now'));
-        $manager->persist($post_3);
-
-        $post_4 = new Post();
-        $post_4->setTitle($faker->text(20));
-        $post_4->setStory($faker->text(100));
-        $post_4->setPublishDate($faker->dateTimeBetween('-1 years', 'now'));
-        $manager->persist($post_4);
-
-        $post_5 = new Post();
-        $post_5->setTitle($faker->text(20));
-        $post_5->setStory($faker->text(100));
-        $post_5->setPublishDate($faker->dateTimeBetween('-1 years', 'now'));
-        $manager->persist($post_5);
-
-        $post_6 = new Post();
-        $post_6->setTitle($faker->text(20));
-        $post_6->setStory($faker->text(100));
-        $post_6->setPublishDate($faker->dateTimeBetween('-1 years', 'now'));
-        $manager->persist($post_6);
+            $this->addReference('post_' . $i, $post);
+        }
 
         $manager->flush();
-
-        $this->addReference(self::POST_1, $post_1);
-        $this->addReference(self::POST_2, $post_2);
-        $this->addReference(self::POST_3, $post_3);
-        $this->addReference(self::POST_4, $post_4);
-        $this->addReference(self::POST_5, $post_5);
-        $this->addReference(self::POST_6, $post_6);
     }
 }
