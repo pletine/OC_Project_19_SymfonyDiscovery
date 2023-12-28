@@ -5,34 +5,35 @@
 {% block body %}
     <main>
         <h1>HomePage Blog</h1>
+        <a href="/post/new">New Post</a>
 
-        {% for post in posts %}
+        {% for post in posts|reverse %}
             <div id="post_{{ post.id }}">
                 <h2>{{ post.title }}</h2>
                 <p>{{ post.story }}</p>
                 <p>{{ post.showPublishDate() }}</p>
                 {# <a href="{{ path('post_show', {'id': post->id}) }}">Voir l'article</a> #}
                 <div class="comments">
-                    <h3>Commentaires</h3>
-                    {% for comment in post.comments %}
-                    <div id="comment_{{ comment.id }}">
-                        <p>Auteur : {{ comment.author }}</p>
-                        <p>{{ comment.comment }}</p>
-                        <p>{{ comment.showPublishDate() }}</p>
-                    </div>
-                    {% endfor %}
+                    {% if post.comments|length == 0 %}
+                        <p>Aucun commentaire</p>
+                    {% else %}
+                        <h3>Commentaires</h3>
+                        {% for comment in post.comments|reverse %}
+                        <div id="comment_{{ comment.id }}">
+                            <p>Auteur : {{ comment.author }}</p>
+                            <p>{{ comment.comment }}</p>
+                            <p>{{ comment.showPublishDate() }}</p>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
                     <div class="add_comment">
                         <h3>Ajouter un commentaire</h3>
-                        <form action="" method="post">
-                            <input type="hidden" name="postId" value="{{ post.id }}">
-                            <label for="author">Auteur</label>
-                            <input type="text" name="author" id="author">
-                            <br />
-                            <label for="comment">Commentaire</label>
-                            <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
-                            <br />
-                            <input type="submit" value="Ajouter">
-                        </form>
+                        {{ form_start(formsComment[post.id]) }}
+                            <div class="my-custom-class-for-errors">
+                                {{ form_errors(formsComment[post.id]) }}
+                            </div>
+                            {{ form_widget(formsComment[post.id]) }}
+                        {{ form_end(formsComment[post.id]) }}
                     </div>
                 </div>
             </div>
