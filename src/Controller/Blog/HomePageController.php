@@ -23,7 +23,6 @@ class HomePageController extends AbstractController
 
         $comment = new Comment();
 
-
         $forms = [];
         $posts = $postRepository->findAll();
         foreach ($posts as $post) {
