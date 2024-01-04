@@ -23,6 +23,7 @@
                             <p>Auteur : {{ comment.author }}</p>
                             <p>{{ comment.comment }}</p>
                             <p>{{ comment.showPublishDate() }}</p>
+                            <a href="{{ path('comment_delete', {'id': comment.id}) }}">Supprimer</a>
                         </div>
                         {% endfor %}
                     {% endif %}
@@ -36,6 +37,7 @@
                         {{ form_end(formsComment[post.id]) }}
                     </div>
                 </div>
+                <a href="{{ path('post_delete', {'id': post.id}) }}">Supprimer</a>
             </div>
         {% endfor %}
     </main>

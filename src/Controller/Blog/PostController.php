@@ -84,8 +84,16 @@ class PostController extends AbstractController
         return new Response('Test get post: ' . $post->getTitle() . '<br>ID = ' . $post->getId());
     }
 
-    public function remove(): Response
+    #[Route('/post/{id}/delete', name: 'post_delete')]
+    public function delete(Post $post, EntityManagerInterface $entityManager): Response
     {
-        return new Response();
+        foreach ($post->getComments() as $comment) {
+            $entityManager->remove($comment);
+        }
+        $entityManager->remove($post);
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('homepage');
     }
 }

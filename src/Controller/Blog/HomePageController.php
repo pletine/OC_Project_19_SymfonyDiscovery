@@ -4,6 +4,8 @@ namespace App\Controller\Blog;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use App\Repository\CommentRepository;
@@ -15,30 +17,29 @@ use App\Form\CommentType;
 class HomePageController extends AbstractController
 {
     #[Route('/', name: "homepage")]
-    public function homepage(PostRepository $postRepository, CommentRepository $commentRepository): Response
+    public function homepage(Request $request, PostRepository $postRepository, CommentRepository $commentRepository, EntityManagerInterface $entityManager): Response
     {
         $user = new \stdClass();
         $user->connected = false;
         $user->name = 'John Doe';
 
-        $comment = new Comment();
-
         $forms = [];
         $posts = $postRepository->findAll();
         foreach ($posts as $post) {
+            $comment = new Comment();
             $form = $this->createForm(CommentType::class, $comment);
+            $form->handleRequest($request);
             $forms[$post->getId()] = $form->createView();
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $comment = $form->getData();
                 $comment->setPost($post);
-                $comment->setPublishDate(new \DateTime());
+                $comment->setDate(new \DateTime());
 
-                // $entityManager = $this->getDoctrine()->getManager();
-                // $entityManager->persist($comment);
-                // $entityManager->flush();
+                $entityManager->persist($comment);
+                $entityManager->flush();
 
-                return $this->redirectToRoute('homepage');
+                return $this->redirectToRoute('read_comment', ['id' => $comment->getId()]);
             }
         }
 

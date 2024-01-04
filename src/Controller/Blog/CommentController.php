@@ -26,8 +26,16 @@ class CommentController extends AbstractController
     #[Route('/comment/{PostId}', name: 'add_comment')]
     public function add(Comment $comment, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->
         $entityManager->persist($comment);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('homepage');
+    }
+
+    #[Route('/comment/{id}/delete', name: 'comment_delete')]
+    public function delete(Comment $comment, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($comment);
         $entityManager->flush();
 
         return $this->redirectToRoute('homepage');

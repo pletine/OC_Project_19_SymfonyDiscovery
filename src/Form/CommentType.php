@@ -7,6 +7,7 @@ use App\Entity\Post;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,7 +17,14 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('author')
-            ->add('comment')
+            ->add('comment', TextareaType::class)
+            ->add('post', EntityType::class, [
+                'class' => Post::class,
+                'choice_label' => 'title',
+                'attr' => [
+                    'type' => 'hidden',
+                ]
+            ])
             ->add('save', SubmitType::class, ['label' => 'Ajouter le Commentaire'])
         ;
     }

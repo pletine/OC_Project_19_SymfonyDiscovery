@@ -62,3 +62,7 @@ main .comments [id ^= "comment_"] {
     padding: 5px;
     margin: 2px;
 }
+
+.hidden-input {
+    display: none;
+}
