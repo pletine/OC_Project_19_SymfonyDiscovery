@@ -3,11 +3,13 @@
     <img src="{{ asset('images/test.jpeg') }}" alt="image de test">
 
     <div>
-    {% if user and user.connected == true %}
-        <p>Bonjour {{ user.name }}</p>
-        <a href="index.php?action=logout">Se déconnecter</a>
+    {% if user_connected is defined and user_connected %}
+        {# <p>Bonjour {{ user.name }}</p> #}
+        <a href="{{ path('logout') }}">Se déconnecter</a>
+        <a href="{{ path('homepage') }}">Mon profil</a>
     {% else %}
-        <a href="index.php?action=login">Se connecter</a>
+        <a href="{{ path('login') }}">Se connecter</a>
+        <a href="{{ path('signup') }}">S'inscrire</a>
     {% endif %}
     </div>
 {% endblock %}

@@ -16,12 +16,10 @@ use App\Form\CommentType;
 
 class HomePageController extends AbstractController
 {
-    #[Route('/', name: "homepage")]
+    #[Route('/', name: 'homepage')]
     public function homepage(Request $request, PostRepository $postRepository, CommentRepository $commentRepository, EntityManagerInterface $entityManager): Response
     {
-        $user = new \stdClass();
-        $user->connected = false;
-        $user->name = 'John Doe';
+        $user_connected = $request->getSession()->get('user_connected');
 
         $forms = [];
         $posts = $postRepository->findAll();
@@ -45,10 +43,10 @@ class HomePageController extends AbstractController
 
         $comments = $commentRepository->findAll();
         return $this->render('blog/homepage.html.twig', [
-            'user' => $user,
             'posts' => $posts,
             'comments' => $comments,
             'formsComment' => $forms,
+            'user_connected' => $user_connected,
         ]);
     }
 }
