@@ -13,11 +13,15 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
 use App\Form\NewUserType;
 
-class LoginController extends AbstractController
+class UserController extends AbstractController
 {
     #[Route('/login', name: 'login')]
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('homepage');
+        }
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 

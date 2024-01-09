@@ -36,6 +36,8 @@ class PostController extends AbstractController
     #[Route('/post/new', name: 'new_post')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $post = new Post();
         // $post->setTitle('Ex: Ma journée du ?');
         // $post->setStory('Ex: Les évènements marquants de ma journée');
@@ -87,6 +89,8 @@ class PostController extends AbstractController
     #[Route('/post/{id}/delete', name: 'post_delete')]
     public function delete(Post $post, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         foreach ($post->getComments() as $comment) {
             $entityManager->remove($comment);
         }

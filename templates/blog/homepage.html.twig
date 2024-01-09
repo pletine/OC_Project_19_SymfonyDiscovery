@@ -32,6 +32,10 @@
                         </div>
                         {% endfor %}
                     {% endif %}
+                </div>
+
+                {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.FirstName is not same as("Pierre") %}
+                <div class="add comments">
                     <div class="add_comment">
                         <h3>Ajouter un commentaire</h3>
                         {{ form_start(formsComment[post.id]) }}
@@ -42,6 +46,8 @@
                         {{ form_end(formsComment[post.id]) }}
                     </div>
                 </div>
+                {% endif %}
+
                 {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.FirstName is same as("Pierre") %}
                     <a href="{{ path('post_delete', {'id': post.id}) }}">Supprimer</a>
                 {% endif %}
