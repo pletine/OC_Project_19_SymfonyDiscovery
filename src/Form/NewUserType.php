@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class NewUserType extends AbstractType
 {
@@ -16,6 +17,8 @@ class NewUserType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class)
+            ->add('firstname', TextType::class)
+            ->add('lastname', TextType::class)
             ->add('password', PasswordType::class)
             ->add('save', SubmitType::class, ['label' => 'Ajouter l\'utilisateur'])
         ;

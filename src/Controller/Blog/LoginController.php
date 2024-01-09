@@ -24,14 +24,6 @@ class LoginController extends AbstractController
         // last username entered by the user
         $last_email = $authenticationUtils->getLastUsername();
 
-        if ($error) {
-            $this->addFlash('error', 'Email or password is incorrect');
-            $session = $request->getSession();
-        } else {
-            $session = $request->getSession();
-            $session->set("user_connected", true);
-        }
-
         return $this->render('blog/login.html.twig', [
             'last_email' => $last_email,
             'error' => $error,
@@ -62,11 +54,8 @@ class LoginController extends AbstractController
     }
 
     #[Route('/logout', name: 'logout')]
-    public function logout(Request $request): Response
+    public function logout(): Response
     {
-        $session = $request->getSession();
-        $session->set("user_connected", false);
-
         return $this->redirectToRoute('homepage');
     }
 }

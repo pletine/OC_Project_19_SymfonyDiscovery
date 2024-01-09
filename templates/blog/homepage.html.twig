@@ -5,7 +5,10 @@
 {% block body %}
     <main>
         <h1>HomePage Blog</h1>
-        <a href="/post/new">New Post</a>
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.FirstName is same as("Pierre") %}
+            <a href="/post/new">New Post</a>
+        {% endif %}
 
         {% for post in posts|reverse %}
             <div id="post_{{ post.id }}">
@@ -23,7 +26,9 @@
                             <p>Auteur : {{ comment.author }}</p>
                             <p>{{ comment.comment }}</p>
                             <p>{{ comment.showPublishDate() }}</p>
-                            <a href="{{ path('comment_delete', {'id': comment.id}) }}">Supprimer</a>
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.FirstName is same as("Pierre") %}
+                                <a href="{{ path('comment_delete', {'id': comment.id}) }}">Supprimer</a>
+                            {% endif %}
                         </div>
                         {% endfor %}
                     {% endif %}
@@ -37,7 +42,9 @@
                         {{ form_end(formsComment[post.id]) }}
                     </div>
                 </div>
-                <a href="{{ path('post_delete', {'id': post.id}) }}">Supprimer</a>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.FirstName is same as("Pierre") %}
+                    <a href="{{ path('post_delete', {'id': post.id}) }}">Supprimer</a>
+                {% endif %}
             </div>
         {% endfor %}
     </main>

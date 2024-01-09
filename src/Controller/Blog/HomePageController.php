@@ -19,8 +19,6 @@ class HomePageController extends AbstractController
     #[Route('/', name: 'homepage')]
     public function homepage(Request $request, PostRepository $postRepository, CommentRepository $commentRepository, EntityManagerInterface $entityManager): Response
     {
-        $user_connected = $request->getSession()->get('user_connected');
-
         $forms = [];
         $posts = $postRepository->findAll();
         foreach ($posts as $post) {
@@ -46,7 +44,6 @@ class HomePageController extends AbstractController
             'posts' => $posts,
             'comments' => $comments,
             'formsComment' => $forms,
-            'user_connected' => $user_connected,
         ]);
     }
 }

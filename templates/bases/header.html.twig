@@ -3,8 +3,13 @@
     <img src="{{ asset('images/test.jpeg') }}" alt="image de test">
 
     <div>
-    {% if user_connected is defined and user_connected %}
-        {# <p>Bonjour {{ user.name }}</p> #}
+    {# {% if user is defined and user != null %} #}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if app.user.FirstName|length %}
+            <p>Bonjour {{ app.user.FirstName }}</p>
+        {% else %}
+            <p>Bonjour {{ app.user.email }}</p>
+        {% endif %}
         <a href="{{ path('logout') }}">Se déconnecter</a>
         <a href="{{ path('homepage') }}">Mon profil</a>
     {% else %}
