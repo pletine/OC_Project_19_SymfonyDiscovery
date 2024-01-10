@@ -6,6 +6,9 @@
  */
 import './styles/app.css'
 
+import './scripts/testFunctions.js'
+import TC from './scripts/testClass.js'
+
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉')
 
 // Add click event on each h3 Comment Add
@@ -24,4 +27,11 @@ Array.from(h3_addComment).forEach((element) => {
             nextSibling.style.height = 'auto';
         }
     });
+});
+
+// Test function de la classe
+var h2ClassTest = document.getElementById("JSClassTest");
+var testClass = new TC("TestName 1");
+h2ClassTest.addEventListener('click', (e) => {
+    testClass.alertName();
 });

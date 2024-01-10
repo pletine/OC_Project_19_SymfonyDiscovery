@@ -2,9 +2,17 @@
 
 {% block title %}HomePage Blog{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('scripts/testFunctions.js') }}"></script>
+{% endblock %}
+
 {% block body %}
     <main>
         <h1>HomePage Blog</h1>
+        <h2 onclick="testFunction()">Test JS function</h2>
+        <h2 id="JSClassTest">Test JS class</h2>
+        
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.FirstName is same as("Pierre") %}
             <a href="/post/new">New Post</a>
