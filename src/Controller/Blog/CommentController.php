@@ -12,12 +12,6 @@ use App\Entity\Comment;
 
 class CommentController extends AbstractController
 {
-    // #[Route('/blog/comment', name: 'app_blog_comment')]
-    // public function index(): Response
-    // {
-    //     return $this->render('homepage');
-    // }
-
     #[Route('/comment/{id}', name: 'read_comment')]
     public function show(Comment $comment): Response
     {

@@ -8,41 +8,17 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use App\Form\PostType;
 
 class PostController extends AbstractController
 {
-    // #[Route('/post', name: 'create_post')]
-    // public function createPost(EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
-    // {
-    //     $post = new Post();
-    //     $post->setTitle('My first post');
-    //     $post->setStory('This is my first post on my new blog!');
-    //     $post->setPublishDate(new \DateTime());
-
-    //     $errors = $validator->validate($post);
-    //     if (count($errors) > 0) {
-    //         return new Response((string) $errors, 400);
-    //     } else {
-    //         $entityManager->persist($post);
-    //         $entityManager->flush();
-
-    //         return new Response("Saved new post with id {$post->getId()}");
-    //     }
-    // }
-
     #[Route('/post/new', name: 'new_post')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
         $post = new Post();
-        // $post->setTitle('Ex: Ma journée du ?');
-        // $post->setStory('Ex: Les évènements marquants de ma journée');
-        // $post->setPublishDate(new \DateTime());
-
         $form = $this->createForm(PostType::class, $post);
 
         $form->handleRequest($request);
@@ -62,25 +38,6 @@ class PostController extends AbstractController
     }
 
     #[Route('/post/{id}', name: 'read_post')]
-    // public function show(PostRepository $postRepository, int $id): Response
-    // {
-    //     // $post = $entityManager->getRepository(Post::class)->find($id);
-    //     // if (!$post) {
-    //     //     throw $this->createNotFoundException(
-    //     //         'No post found for id ' . $id
-    //     //     );
-    //     // }
-    //     // return new Response('Check out this great post: ' . $post->getTitle());
-
-    //     $post = $postRepository->findPostById($id);
-    //     if (!$post) {
-    //         throw $this->createNotFoundException(
-    //             'No post found for id ' . $id
-    //         );
-    //     }
-
-    //     return new Response('Check out this great post: ' . $post->getTitle());
-    // }
     public function show(Post $post, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(PostType::class, $post);
