@@ -11,39 +11,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 
-use App\Entity\Comment;
-use App\Form\CommentType;
-
 class HomePageController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
     public function homepage(Request $request, PostRepository $postRepository, CommentRepository $commentRepository, EntityManagerInterface $entityManager): Response
     {
-        $forms = [];
         $posts = $postRepository->findAll();
-        foreach ($posts as $post) {
-            $comment = new Comment();
-            $form = $this->createForm(CommentType::class, $comment);
-            $form->handleRequest($request);
-            $forms[$post->getId()] = $form->createView();
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $comment = $form->getData();
-                $comment->setPost($post);
-                $comment->setDate(new \DateTime());
-
-                $entityManager->persist($comment);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('read_comment', ['id' => $comment->getId()]);
-            }
-        }
-
-        $comments = $commentRepository->findAll();
+        
         return $this->render('blog/homepage.html.twig', [
             'posts' => $posts,
-            'comments' => $comments,
-            'formsComment' => $forms,
         ]);
     }
 }

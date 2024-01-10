@@ -4,6 +4,7 @@ namespace App\Controller\Blog;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -11,25 +12,47 @@ use App\Entity\Comment;
 
 class CommentController extends AbstractController
 {
-    #[Route('/blog/comment', name: 'app_blog_comment')]
-    public function index(): Response
-    {
-        return $this->render('homepage');
-    }
+    // #[Route('/blog/comment', name: 'app_blog_comment')]
+    // public function index(): Response
+    // {
+    //     return $this->render('homepage');
+    // }
 
     #[Route('/comment/{id}', name: 'read_comment')]
     public function show(Comment $comment): Response
     {
-        return new Response('Test get post: ' . $comment->getAuthor() . '<br>ID = ' . $comment->getId());
+        $text = 'Test get post: ' . $comment->getAuthor() . '<br>ID = ' . $comment->getId();
+        $text .= "<br><a href='/'>Back to homepage</a>";
+        return new Response($text);
     }
 
-    #[Route('/comment/{PostId}', name: 'add_comment')]
-    public function add(Comment $comment, EntityManagerInterface $entityManager): Response
+    #[Route('/newComment', name: 'add_comment')]
+    public function add(EntityManagerInterface $entityManager, Request $request): Response
     {
-        $entityManager->persist($comment);
-        $entityManager->flush();
+        $author = $request->request->get('author');
+        $comment_text = $request->request->get('comment');
+        $post_id = $request->request->get('post_id');
 
-        return $this->redirectToRoute('homepage');
+        if(!$author || !$comment_text || !$post_id) {
+            return $this->redirectToRoute('homepage');
+        }
+
+        $comment = new Comment();
+        $comment->setAuthor($author);
+        $comment->setComment($comment_text);
+        $comment->setDate(new \DateTime());
+
+        $post = $entityManager->getRepository('App\Entity\Post')->find($post_id);
+        $comment->setPost($post);
+
+        try {
+            $entityManager->persist($comment);
+            $entityManager->flush();
+        } catch (\Exception $e) {
+            return new Response('Error: ' . $e->getMessage());
+        }
+
+        return $this->redirectToRoute('read_comment', ['id' => $comment->getId()]);
     }
 
     #[Route('/comment/{id}/delete', name: 'comment_delete')]
