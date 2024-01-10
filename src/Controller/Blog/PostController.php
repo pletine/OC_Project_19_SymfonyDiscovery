@@ -81,9 +81,24 @@ class PostController extends AbstractController
 
     //     return new Response('Check out this great post: ' . $post->getTitle());
     // }
-    public function show(Post $post): Response
+    public function show(Post $post, Request $request, EntityManagerInterface $entityManager): Response
     {
-        return new Response('Test get post: ' . $post->getTitle() . '<br>ID = ' . $post->getId());
+        $form = $this->createForm(PostType::class, $post);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post = $form->getData();
+            $post->setPublishDate(new \DateTime());
+
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render('blog/postForm.html.twig', [
+            'form' => $form,
+        ]);
     }
 
     #[Route('/post/{id}/delete', name: 'post_delete')]
