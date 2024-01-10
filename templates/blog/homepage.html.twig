@@ -42,20 +42,18 @@
 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.FirstName is not same as("Pierre") %}
                 <div class="add comments">
-                    <div class="add_comment">
-                        <h3>Ajouter un commentaire</h3>
-                        <form action="{{ path('add_comment') }}" method="post">
-                            <label for="author"></label>
-                            <input type="text" name="author" id="author" placeholder="Auteur">
-                            <br />
-                            <label for="comment"></label>
-                            <input type="textarea" name="comment" id="comment" placeholder="Commentaire">
-                            <br />
-                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                    <h3>Ajouter un commentaire</h3>
+                    <form action="{{ path('add_comment') }}" method="post">
+                        <label for="author"></label>
+                        <input type="text" name="author" id="author" placeholder="Auteur">
+                        <br />
+                        <label for="comment"></label>
+                        <input type="textarea" name="comment" id="comment" placeholder="Commentaire">
+                        <br />
+                        <input type="hidden" name="post_id" value="{{ post.id }}">
 
-                            <button type="submit">Ajouter commentaire</button>
-                        </form>
-                    </div>
+                        <button type="submit">Ajouter commentaire</button>
+                    </form>
                 </div>
                 {% endif %}
 

@@ -56,9 +56,13 @@ main .comments {
     font-style: italic;
 }
 
-main .add {
-    padding-top: 0;
-    margin-top: 5px;
+main .add h3 {
+    cursor: pointer;
+}
+
+main .add form {
+    visibility: hidden;
+    height: 0;
 }
 
 main .comments [id ^= "comment_"] {
@@ -66,8 +70,4 @@ main .comments [id ^= "comment_"] {
     border-radius: 10px;
     padding: 5px;
     margin: 2px;
-}
-
-.hidden-input {
-    display: none;
 }
